@@ -1205,23 +1205,6 @@ namespace HandController
             await Task.Delay(3000);
             emptycodecheck = "Join Room";
         }
-        private async Task joinrandom()
-        {
-            Transform root = GameObject.Find("Environment Objects").transform;
-            Transform obeject = root.Find("LocalObjects_Prefab").transform;
-            obeject.gameObject.SetActive(false);
-            GorillaComputer.instance.currentGameMode.Value = "MODDED_CASUAL";
-            GorillaTagger.Instance.bodyCollider.transform.GetComponent<CapsuleCollider>().enabled = false;
-            prevpos = GorillaLocomotion.Player.Instance.transform.position;
-            cooldown = true;
-            GorillaLocomotion.Player.Instance.transform.position = new Vector3(-66.706f, 11.8304f, -78.8302f);
-            await Task.Delay(500);
-            obeject.gameObject.SetActive(true);
-            GorillaLocomotion.Player.Instance.transform.position = prevpos;
-            GorillaTagger.Instance.bodyCollider.transform.GetComponent<CapsuleCollider>().enabled = true;
-            await Task.Delay(5000);
-            cooldown = false;
-        }
         private Color currentColor = Color.white;
         private Color GetCyclingColor()
         {
