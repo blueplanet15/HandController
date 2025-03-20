@@ -60,3 +60,7 @@ fixed the players going off of the scoreboard and its rainbow now!
 # V0.7
 
 Added a camera to the game and fixed not being able to join rooms on vr.
+
+# V0.8
+
+Fix

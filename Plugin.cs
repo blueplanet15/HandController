@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using BepInEx;
-using GorillaNetworking;
 using Photon.Pun;
 using Photon.Voice.PUN;
 using UnityEngine;
@@ -13,8 +12,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
 using Utilla;
+using Utilla.Attributes;
+using GorillaNetworking;
 
-namespace GorillaTagModTemplateProject
+namespace HandController
 {
     /// <summary>
     /// This is your mod's main class.
@@ -127,16 +128,8 @@ namespace GorillaTagModTemplateProject
                 {
                     if (Keyboard.current.f5Key.wasPressedThisFrame)
                     {
-                        if (f5)
-                        {
-                            f5 = false;
-                            GorillaTagger.Instance.thirdPersonCamera.SetActive(f5);
-                        }
-                        else
-                        {
-                            f5 = true;
-                            GorillaTagger.Instance.thirdPersonCamera.SetActive(f5);
-                        }
+                        f5 = !f5;
+                        GorillaTagger.Instance.thirdPersonCamera.SetActive(f5);
                     }
                     if (Keyboard.current.tabKey.isPressed)
                     {
@@ -150,19 +143,19 @@ namespace GorillaTagModTemplateProject
                     {
                         keyPressed = false;
                     }
-                    if (!inRoom && PhotonNetwork.InRoom)
+                    if (NetworkSystem.Instance.InRoom && !NetworkSystem.Instance.GameModeString.Contains("MODDED"))
                     {
                         NetworkSystem.Instance.ReturnToSinglePlayer();
                     }
-                    if (cub == null && cylindercam == null && cubmirror == null)
+                    if (cub is null && cylindercam is null && cubmirror is null)
                     {
                         print("CREATED");
-                        cub = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        cub = GameObject.CreatePrimitive(PrimitiveType.Cube); // I'll probably add a config to disable the camera
                         cubmirror = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         cylindercam = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
                         Renderer renderer = cub.GetComponent<Renderer>();
                         Renderer renderer1 = cylindercam.GetComponent<Renderer>();
-                        if (renderer == null && renderer1 == null && cubmirror.transform.GetComponent<Renderer>() == null)
+                        if (renderer is null && renderer1 is null && cubmirror.transform.GetComponent<Renderer>() is null)
                         {
                             renderer = cub.AddComponent<Renderer>();
                             renderer1 = cylindercam.AddComponent<Renderer>();
@@ -193,7 +186,7 @@ namespace GorillaTagModTemplateProject
                         cylindercam.transform.localRotation = Quaternion.identity;
                         cubmirror.transform.localRotation = Quaternion.identity;
 
-                        if (cubcam == null)
+                        if (cubcam is null)
                         {
                             rendertexture = new RenderTexture(256, 256, 16);
                             cubmirrorcam = cubmirror.AddComponent<Camera>();
@@ -232,7 +225,7 @@ namespace GorillaTagModTemplateProject
                             hasCapturedThisFrame = false;
                         }
                     }
-                    if (HandRFollower == null && HandLFollower == null)
+                    if (HandRFollower is null && HandLFollower is null)
                     {
                         return;
                     }
@@ -308,8 +301,7 @@ namespace GorillaTagModTemplateProject
                             {
                                 Vector3 mousePosition = UnityInput.Current.mousePosition;
                                 Ray ray;
-                                bool activeInHierarchy = GorillaTagger.Instance.thirdPersonCamera.activeInHierarchy;
-                                if (activeInHierarchy)
+                                if (GorillaTagger.Instance.thirdPersonCamera.activeInHierarchy)
                                 {
                                     ray = GorillaTagger.Instance.thirdPersonCamera.GetComponentInChildren<Camera>().ScreenPointToRay(Mouse.current.position.ReadValue());
                                 }
@@ -806,7 +798,7 @@ namespace GorillaTagModTemplateProject
 
                             RaycastHit raycastHit = new RaycastHit();
 
-                            if (air != null)
+                            if (air is not null)
                             {
                                 if (CustomRaycast(ray, ref raycastHit, 5f, ~(1 << air.layer)))
                                 {
@@ -1114,31 +1106,32 @@ namespace GorillaTagModTemplateProject
                             GorillaComputer.instance.currentQueue = "DEFAULT";
                         }
                     }
-                    if (GorillaComputer.instance.currentGameMode.Value != "MODDED_CASUAL")
+                    if (GorillaComputer.instance.currentGameMode.Value != "MODDED_Casual")
                     {
                         if (inRoom)
                         {
                             if (GUI.Button(new Rect(480f, Screen.height - 170f, buttonWidth, buttonHeight), "Set mode to Modded casual"))
                             {
-                                GorillaComputer.instance.currentGameMode.Value = "MODDED_CASUAL";
+                                GorillaComputer.instance.currentGameMode.Value = "MODDED_Casual";
                             }
                         }
                         else
                         {
                             if (GUI.Button(new Rect(300f, Screen.height - 170f, buttonWidth, buttonHeight), "Set mode to Modded casual"))
                             {
-                                GorillaComputer.instance.currentGameMode.Value = "MODDED_CASUAL";
+                                GorillaComputer.instance.currentGameMode.Value = "MODDED_Casual";
                             }
                         }
 
                     }
                     if (!PhotonNetwork.InRoom && !cooldown)
                     {
-                        if (GorillaComputer.instance.currentGameMode.Value != "MODDED_CASUAL")
+                        if (GorillaComputer.instance.currentGameMode.Value != "MODDED_Casual")
                         {
                             if (GUI.Button(new Rect(480f, Screen.height - 200f, buttonWidth, buttonHeight), "Join Random"))
                             {
-                                _ = joinrandom();
+                                GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab/JoinPublicRoom - Forest, Tree Exit")
+                                    .GetComponent<GorillaNetworkJoinTrigger>().OnBoxTriggered();
 
                             }
                         }
@@ -1146,7 +1139,8 @@ namespace GorillaTagModTemplateProject
                         {
                             if (GUI.Button(new Rect(300f, Screen.height - 170f, buttonWidth, buttonHeight), "Join Random"))
                             {
-                                _ = joinrandom();
+                                GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab/JoinPublicRoom - Forest, Tree Exit")
+                                    .GetComponent<GorillaNetworkJoinTrigger>().OnBoxTriggered();
                             }
                         }
                     }
