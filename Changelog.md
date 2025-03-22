@@ -64,3 +64,7 @@ Added a camera to the game and fixed not being able to join rooms on vr.
 # V0.8
 
 Fix
+
+# V0.9
+
+Fix
