@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -312,7 +312,7 @@ namespace HandController
                                 RaycastHit hit;
                                 if (Physics.Raycast(ray, out hit, 100f))
                                 {
-                                    GorillaLocomotion.Player.Instance.transform.position = hit.point + new Vector3(0f, 1f, 0f);
+                                    GorillaLocomotion.GTPlayer.Instance.transform.position = hit.point + new Vector3(0f, 1f, 0f);
                                 }
                             }
                         }
@@ -320,17 +320,17 @@ namespace HandController
                         {
 
 
-                            if (Keyboard.current.wKey.isPressed) GorillaLocomotion.Player.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.forward * Time.deltaTime * minspeed * GorillaLocomotion.Player.Instance.scale * speedMultiplier;
+                            if (Keyboard.current.wKey.isPressed) GorillaLocomotion.GTPlayer.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.forward * (Time.deltaTime * minspeed * GorillaLocomotion.GTPlayer.Instance.scale * speedMultiplier);
 
-                            if (Keyboard.current.sKey.isPressed) GorillaLocomotion.Player.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.forward * Time.deltaTime * -minspeed * GorillaLocomotion.Player.Instance.scale * speedMultiplier;
+                            if (Keyboard.current.sKey.isPressed) GorillaLocomotion.GTPlayer.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.forward * (Time.deltaTime * -minspeed * GorillaLocomotion.GTPlayer.Instance.scale * speedMultiplier);
 
-                            if (Keyboard.current.dKey.isPressed) GorillaLocomotion.Player.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.right * Time.deltaTime * minspeed * GorillaLocomotion.Player.Instance.scale * speedMultiplier;
+                            if (Keyboard.current.dKey.isPressed) GorillaLocomotion.GTPlayer.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.right * (Time.deltaTime * minspeed * GorillaLocomotion.GTPlayer.Instance.scale * speedMultiplier);
 
-                            if (Keyboard.current.aKey.isPressed) GorillaLocomotion.Player.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.right * Time.deltaTime * -minspeed * GorillaLocomotion.Player.Instance.scale * speedMultiplier;
+                            if (Keyboard.current.aKey.isPressed) GorillaLocomotion.GTPlayer.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.right * (Time.deltaTime * -minspeed * GorillaLocomotion.GTPlayer.Instance.scale * speedMultiplier);
 
-                            if (Keyboard.current.spaceKey.isPressed) GorillaLocomotion.Player.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.up * Time.deltaTime * minspeed * GorillaLocomotion.Player.Instance.scale * speedMultiplier;
+                            if (Keyboard.current.spaceKey.isPressed) GorillaLocomotion.GTPlayer.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.up * (Time.deltaTime * minspeed * GorillaLocomotion.GTPlayer.Instance.scale * speedMultiplier);
 
-                            if (Keyboard.current.ctrlKey.isPressed) GorillaLocomotion.Player.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.up * Time.deltaTime * -minspeed * GorillaLocomotion.Player.Instance.scale * speedMultiplier;
+                            if (Keyboard.current.ctrlKey.isPressed) GorillaLocomotion.GTPlayer.Instance.transform.position += GorillaTagger.Instance.headCollider.transform.up * (Time.deltaTime * -minspeed * GorillaLocomotion.GTPlayer.Instance.scale * speedMultiplier);
 
                             if (toggleair)
                             {
@@ -404,9 +404,9 @@ namespace HandController
                             }
                             if (!gravity)
                             {
-                                GorillaLocomotion.Player.Instance.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                                GorillaLocomotion.GTPlayer.Instance.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-                                GorillaLocomotion.Player.Instance.transform.GetComponent<Rigidbody>().velocity = (GorillaTagger.Instance.offlineVRRig.transform.up * 0.0715f) * GorillaLocomotion.Player.Instance.scale;
+                                GorillaLocomotion.GTPlayer.Instance.transform.GetComponent<Rigidbody>().velocity = (GorillaTagger.Instance.offlineVRRig.transform.up * 0.0715f) * GorillaLocomotion.GTPlayer.Instance.scale;
                             }
                             if (speedmode)
                             {
@@ -1204,6 +1204,23 @@ namespace HandController
         {
             await Task.Delay(3000);
             emptycodecheck = "Join Room";
+        }
+        private async Task joinrandom()
+        {
+            Transform root = GameObject.Find("Environment Objects").transform;
+            Transform obeject = root.Find("LocalObjects_Prefab").transform;
+            obeject.gameObject.SetActive(false);
+            GorillaComputer.instance.currentGameMode.Value = "MODDED_CASUAL";
+            GorillaTagger.Instance.bodyCollider.transform.GetComponent<CapsuleCollider>().enabled = false;
+            prevpos = GorillaLocomotion.GTPlayer.Instance.transform.position;
+            cooldown = true;
+            GorillaLocomotion.GTPlayer.Instance.transform.position = new Vector3(-66.706f, 11.8304f, -78.8302f);
+            await Task.Delay(500);
+            obeject.gameObject.SetActive(true);
+            GorillaLocomotion.GTPlayer.Instance.transform.position = prevpos;
+            GorillaTagger.Instance.bodyCollider.transform.GetComponent<CapsuleCollider>().enabled = true;
+            await Task.Delay(5000);
+            cooldown = false;
         }
         private Color currentColor = Color.white;
         private Color GetCyclingColor()
