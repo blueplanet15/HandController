@@ -755,13 +755,21 @@ namespace HandController
                         cub.transform.position = GorillaTagger.Instance.leftHandTriggerCollider.transform.position;
                         cub.transform.rotation = GorillaTagger.Instance.leftHandTriggerCollider.transform.rotation * Quaternion.Euler(0f, 90f, -32f);
 
-                        bool captureInputDetected = Keyboard.current.cKey.wasPressedThisFrame ||
-                            (ControllerInputPoller.instance.leftControllerSecondaryButton && ControllerInputPoller.instance.rightControllerIndexFloat > 0.9f);
+                        if(Keyboard.current[Key.RightBracket].wasPressedThisFrame)
+			{
+                            capturing = !capturing;
+                        }
 
-                        if (captureInputDetected && !hasCapturedThisFrame)
+                        bool captureInputDetected = Keyboard.current.cKey.wasPressedThisFrame ||
+                        (ControllerInputPoller.instance.leftControllerSecondaryButton && ControllerInputPoller.instance.rightControllerIndexFloat > 0.9f);
+			
+                        if (capturing)
                         {
-                            Capture();
-                            hasCapturedThisFrame = true;
+                            if (captureInputDetected && !hasCapturedThisFrame)
+                            {
+                                Capture();
+                                hasCapturedThisFrame = true;
+                            }
                         }
 
                         if (!captureInputDetected)
@@ -974,17 +982,20 @@ namespace HandController
                                     UpdateBoxTexture();
                                 }
                             }
-                            GUI.Box(new Rect(1760, 0, 160, 290), "", style: boxstyle);
-                            GUILayout.BeginArea(new Rect(1780, 10, 120, 450));
-                            GUILayout.Label("Scoreboard", style: lblstyle);
-                            if (PhotonNetwork.InRoom)
-                            {
-                                foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-                            {
-                                    GUILayout.Label(player.NickName);
-                                }
-                            }
-                            GUILayout.EndArea();
+
+       			    // Scoreboard
+	      
+                            // GUI.Box(new Rect(1760, 0, 160, 290), "", style: boxstyle);
+                            // GUILayout.BeginArea(new Rect(1780, 10, 120, 450));
+                            // GUILayout.Label("Scoreboard", style: lblstyle);
+                            // if (PhotonNetwork.InRoom)
+                            // {
+                            //     foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                            // {
+                            //         GUILayout.Label(player.NickName);
+                            //     }
+                            // }
+                            // GUILayout.EndArea();
 			    
                         }
                     }
@@ -1225,17 +1236,25 @@ namespace HandController
         }
         private Color currentColor = Color.white;
         private Color GetCyclingColor()
-        {
-            if (!pausecolor)
-            {
-                float t = Time.time;
-                float r = Mathf.Sin(t * 2f) * 0.5f + 0.5f;
-                float g = Mathf.Sin(t * 2f + Mathf.PI / 3f) * 0.5f + 0.5f;
-                float b = Mathf.Sin(t * 2f + 2f * Mathf.PI / 3f) * 0.5f + 0.5f;
-                currentColor = new Color(r, g, b);
-            }
-            return currentColor;
-        }
+	{
+    	if (!pausecolor)
+    	{
+     		// Old Code
+       
+        	// float t = Time.time;
+        	// float r = Mathf.Sin(t * 2f) * 0.5f + 0.5f;
+        	// float g = Mathf.Sin(t * 2f + Mathf.PI / 3f) * 0.5f + 0.5f;
+        	// float b = Mathf.Sin(t * 2f + 2f * Mathf.PI / 3f) * 0.5f + 0.5f;
+	 
+		// New Code
+  
+        	float r = Mathf.Sin(0.333333333f);
+        	float g = Mathf.Sin(0.777777777f);
+        	float b = Mathf.Sin(0.999999999f);
+        	currentColor = new Color(r, g, b);
+    	}
+    	return currentColor;
+	}
         /* This attribute tells Utilla to call this method when a modded room is joined */
         [ModdedGamemodeJoin]
         public void OnJoin(string gamemode)
