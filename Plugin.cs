@@ -974,20 +974,17 @@ namespace HandController
                                     UpdateBoxTexture();
                                 }
                             }
-
-       			    // Scoreboard
-	      
-                            // GUI.Box(new Rect(1760, 0, 160, 290), "", style: boxstyle);
-                            // GUILayout.BeginArea(new Rect(1780, 10, 120, 450));
-                            // GUILayout.Label("Scoreboard", style: lblstyle);
-                            // if (PhotonNetwork.InRoom)
-                            // {
-                            //     foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-                            //     {
-                            //         GUILayout.Label(player.NickName);
-                            //     }
-                            // }
-                            // GUILayout.EndArea();
+                            GUI.Box(new Rect(1760, 0, 160, 290), "", style: boxstyle);
+                            GUILayout.BeginArea(new Rect(1780, 10, 120, 450));
+                            GUILayout.Label("Scoreboard", style: lblstyle);
+                            if (PhotonNetwork.InRoom)
+                            {
+                                foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                            {
+                                    GUILayout.Label(player.NickName);
+                                }
+                            }
+                            GUILayout.EndArea();
 			    
                         }
                     }
