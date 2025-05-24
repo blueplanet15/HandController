@@ -71,7 +71,6 @@ namespace HandController
         private GUIStyle lblstyle;
         bool toggled = true;
         bool inRoom;
-	private bool capturing;
 
         void Start()
         {
@@ -762,21 +761,13 @@ namespace HandController
                         cub.transform.position = GorillaTagger.Instance.leftHandTriggerCollider.transform.position;
                         cub.transform.rotation = GorillaTagger.Instance.leftHandTriggerCollider.transform.rotation * Quaternion.Euler(0f, 90f, -32f);
 
-                        if(Keyboard.current[Key.RightBracket].wasPressedThisFrame)
-			{
-                            capturing = !capturing;
-                        }
-
                         bool captureInputDetected = Keyboard.current.cKey.wasPressedThisFrame ||
                         (ControllerInputPoller.instance.leftControllerSecondaryButton && ControllerInputPoller.instance.rightControllerIndexFloat > 0.9f);
 			
-                        if (capturing)
+                        if (captureInputDetected && !hasCapturedThisFrame)
                         {
-                            if (captureInputDetected && !hasCapturedThisFrame)
-                            {
                                 Capture();
                                 hasCapturedThisFrame = true;
-                            }
                         }
 
                         if (!captureInputDetected)
