@@ -13,6 +13,13 @@ It's a mod for PC!
 
 ## https://discord.gg/F5HckvbJMG
 
+# BP15's CHANGES
+
+Instead of the photos going straight to the bepinex path, it creates a folder in the bepinex path called "HandCaptures" so your bepinex path isnt flooded with photos
+
+The scoreboard that normally appears in the top right of your screen when in a lobby is now gone
+
+The GUI is now always blue (hopefully in the future it will match your gorillas color)
 
 ## Compatibility
 this mod is not compatible with any mods that change your perspective on your desktop.
@@ -73,10 +80,6 @@ Scroll wheel at speed mode to change speed.
 Scroll wheel to change air handmovement distance of air handmovement mode.
 
 Hold your left mouse button and move it around to turn your perspective horizontally and vertically!
-
-BP15's CHANGES:
-
-press right bracket on your keyboard to toggle capturing (might be broken)
 
 ## Why can't I join non moddeds?
 
