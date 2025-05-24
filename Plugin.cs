@@ -940,7 +940,8 @@ namespace HandController
             byte[] bytes = screenshot.EncodeToPNG();
             string gamePath = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/"));
             string bepInExPath = Path.Combine(gamePath, "BepInEx");
-            string filePath = Path.Combine(bepInExPath, $"{screenshotFilename}_{System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.png");
+	    string customPath = "C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx";
+	    string filePath = Path.Combine(customPath, "HandCaptures", $"{screenshotFilename}_{System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.png");
             System.IO.File.WriteAllBytes(filePath, bytes);
 
             Debug.Log($"Screenshot saved to: {filePath}");
