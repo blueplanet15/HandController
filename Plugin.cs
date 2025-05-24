@@ -71,6 +71,7 @@ namespace HandController
         private GUIStyle lblstyle;
         bool toggled = true;
         bool inRoom;
+	private bool capturing;
 
         void Start()
         {
