@@ -79,6 +79,12 @@ namespace HandController
 			/* Put code in OnGameInitialized to avoid null references */
 
             Utilla.Events.GameInitialized += OnGameInitialized;
+	    
+	    string folderPath = Path.Combine(BepInEx.Paths.BepInExRootPath, "HandCaptures");
+	    if (!Directory.Exists(folderPath))
+	    {
+    	    Directory.CreateDirectory(folderPath);
+	    }
         }
 
         void OnEnable()
