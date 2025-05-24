@@ -74,6 +74,10 @@ Scroll wheel to change air handmovement distance of air handmovement mode.
 
 Hold your left mouse button and move it around to turn your perspective horizontally and vertically!
 
+BP15's CHANGES:
+
+press right bracket on your keyboard to toggle capturing (might be broken)
+
 ## Why can't I join non moddeds?
 
 The mod doesn't allow you to join non moddeds because it's to prevent room hopping and cheating.
